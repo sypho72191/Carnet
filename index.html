@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}*{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}</style>
+<title>Carnet de séance</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carnet">
+<meta name="theme-color" content="#10141b">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAC1ElEQVR4Xu3dsXXbMBSGUSonA7hw5xEyVNbICF7DQ2WfFGlUSDR+AE8HJO+tTcQg3vkoyXFye3v/2OCRH24LzxgODAc55UA5yCkHykFOOVAOcsqBcpBTDpSDnHKgHOSUA+UgpxwoBznlQDnIKQfKQU45UA5yyoFykFMOlIOccqAc5JQD5SCnHCgHOeVAOcgpB8pBTjlQDnLKgXKQUw6Ug5xyoBzklAPlIKccKAc55UA5yCkHykFOOVAOcj/zS3r8/vzbctnXn18tX3Zu69yrW/V/V9641XuXHZHV7lXta46O3W5b51VHt+C9KhyOvt3+N3LtEY3sd+TafVXDMf4dj69wFOM7HV/hoarh4ARKhmPWIM9aZ2Wz9jhrnXslw8E5GA6eMhwYDnLKwVOdP1vZeW182Q+/VzD3XHrKsf+uqeI9FS2mn0s8HM7+uNKzy4YjXZ3VRCcYDEe0LstqP8dgOLgaw4EPwch1fs7xMu0PSKbzWMFjhZxyoBzklAPlIKccKAc55UA5yCkHykFOOVAOcsqBcpBTDpSDnHKgHOSUA+UgpxwoB7nVf6np9P8UzMq/teWxgscKOeVgRjlO//i/iPZzzMrRvi5rik4wG45ty1ZnKdFkbFs+HN/OR/odMMv+ne84l87POTr+JF5g7rnEjxWuw3Aw460sV6McKAe5knLMes08a52VzdrjrHXulQwH51A1HOODPL7CUYzvdHyFh6qG49sPUvcV7XZZI/sduXZf4XB0z0fdblfWt+u+qxrd3t4/Gr90RONfhivd6lGsc69eNBwcUe1jhUMzHDxlODAc5JQD5SCnHCgHOeVAOcgpB8pBTjlQDnLKgXKQUw6Ug5xyoBzklAPlIKccKAc55UA5yCkHykFOOVAOcsqBcpBTDpSDnHKgHOSUA+UgpxwoBznlQDnIKQfKQU45UA5yyoFykFMOlIOccqAc5JQD5SCnHCgHuX9KFW+v5I2QTQAAAABJRU5ErkJggg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: une colonne type appli de salle — anneau de progression en tête, onglets des jours, cartes d'exercices avec pastilles de séries à toucher */
+:root{
+  --bg:#eef1f5; --surface:#ffffff; --fg:#151a22; --muted:#5d6878; --line:#d5dbe4;
+  --accent:#1f5fd6; --accent-soft:#dce7fb; --glow:rgba(31,95,214,.35);
+  --done:#14915c; --done-soft:#d8f1e5; --done-glow:rgba(20,145,92,.4);
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1117; --surface:#171d26; --fg:#e8ecf2; --muted:#93a0b2; --line:#283140;
+  --accent:#6f9cf0; --accent-soft:#1c2a44; --glow:rgba(111,156,240,.45);
+  --done:#45d396; --done-soft:#123126; --done-glow:rgba(69,211,150,.5); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1117; --surface:#171d26; --fg:#e8ecf2; --muted:#93a0b2; --line:#283140;
+  --accent:#6f9cf0; --accent-soft:#1c2a44; --glow:rgba(111,156,240,.45);
+  --done:#45d396; --done-soft:#123126; --done-glow:rgba(69,211,150,.5); color-scheme:dark}
+html{-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 48px;
+  background-image:radial-gradient(120% 60% at 50% -10%,var(--accent-soft),transparent 60%);background-attachment:fixed;
+  -webkit-user-select:none;user-select:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+
+.hero{display:flex;align-items:center;gap:18px}
+.ring{position:relative;width:96px;height:96px;flex:0 0 96px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.ring .track{fill:none;stroke:var(--line);stroke-width:9}
+.ring .prog{fill:none;stroke:var(--accent);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .5s cubic-bezier(.3,1.4,.5,1),stroke .3s;filter:drop-shadow(0 0 6px var(--glow))}
+.ring.full .prog{stroke:var(--done);filter:drop-shadow(0 0 9px var(--done-glow))}
+.ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
+.ring.full{animation:breathe 2.4s ease-in-out infinite}
+.herotext{display:flex;flex-direction:column;gap:2px;min-width:0}
+.eyebrow{font:600 12px var(--body);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+h1{font-family:var(--display);font-size:38px;line-height:1;font-weight:800;letter-spacing:.01em;text-transform:uppercase;margin:0;text-wrap:balance}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;
+  display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-inline:-4px;padding-inline:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;
+  padding:8px 14px;font:600 13px var(--body);cursor:pointer;display:flex;gap:6px;align-items:center;transition:transform .15s,box-shadow .25s,background .25s}
+.tab:active{transform:scale(.94)}
+.tab small{font-weight:500;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 0 3px var(--accent-soft),0 4px 18px var(--glow)}
+.tab[aria-selected="true"] small{color:#ffffffcc}
+.tab .dot{width:7px;height:7px;border-radius:50%;background:var(--done);box-shadow:0 0 6px var(--done-glow)}
+
+.list{display:flex;flex-direction:column;gap:10px}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 14px;display:flex;flex-direction:column;gap:11px;
+  transition:border-color .3s,box-shadow .4s;animation:rise .35s cubic-bezier(.2,.9,.3,1) both}
+.ex.complete{border-color:var(--done);box-shadow:0 0 0 1px var(--done),0 6px 22px var(--done-glow)}
+.ex.justdone{animation:flash .6s ease-out}
+.exhead{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.exname{font-weight:600;min-width:0}
+.ex.complete .exname::after{content:" ✓";color:var(--done)}
+.target{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.sets{display:flex;gap:8px;flex-wrap:wrap}
+.set{width:50px;height:44px;border-radius:11px;border:1.5px solid var(--line);background:transparent;color:var(--muted);
+  font:700 15px var(--body);cursor:pointer;font-variant-numeric:tabular-nums;transition:background .2s,border-color .2s,color .2s,box-shadow .3s,transform .12s}
+.set:active{transform:scale(.88)}
+.set[aria-pressed="true"]{background:var(--done);border-color:var(--done);color:var(--surface);box-shadow:0 0 14px var(--done-glow)}
+.set.pop{animation:pop .38s cubic-bezier(.3,1.6,.5,1)}
+
+.note{font-size:13px;color:var(--muted);margin:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1 1 160px;border-radius:12px;padding:14px;font:700 15px var(--body);cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);transition:transform .12s,box-shadow .3s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 20px var(--glow)}
+.btn.primary.ready{background:var(--done);border-color:var(--done);box-shadow:0 6px 24px var(--done-glow);animation:breathe 2s ease-in-out infinite}
+.btn:disabled{opacity:.4;cursor:default;box-shadow:none;animation:none}
+.confirm{background:var(--accent-soft);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.toast{font-size:15px;color:var(--done);font-weight:700;margin:0;text-align:center;animation:rise .4s both}
+section.hist{display:flex;flex-direction:column;gap:2px}
+section.hist h3{font:600 12px var(--body);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:10px 0 4px}
+.hrow{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:9px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.hrow span:last-child{color:var(--muted);white-space:nowrap}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes rise{from{transform:translateY(8px)}to{transform:none}}
+@keyframes flash{0%{box-shadow:0 0 0 1px var(--done),0 0 0 0 var(--done-glow)}40%{box-shadow:0 0 0 1px var(--done),0 0 0 10px transparent}100%{box-shadow:0 0 0 1px var(--done),0 6px 22px var(--done-glow)}}
+@keyframes breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="wrap">
+  <div class="hero">
+    <div class="ring" id="ring">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="42"/><circle class="prog" id="prog" cx="50" cy="50" r="42"/></svg>
+      <div class="pct" id="pct">0%</div>
+    </div>
+    <div class="herotext">
+      <span class="eyebrow" id="weekLabel"></span>
+      <h1 id="dayTitle"></h1>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Jours d'entraînement"></nav>
+  <div class="list" id="list"></div>
+  <p class="note" id="dayNote"></p>
+  <div class="actions">
+    <button class="btn primary" id="finish">Terminer la séance</button>
+    <button class="btn" id="resetBtn">Tout décocher</button>
+  </div>
+  <div class="confirm" id="confirmBox" hidden>
+    <span>Décocher toutes les séries de cette séance ?</span>
+    <div class="actions"><button class="btn primary" id="yesReset">Oui, décocher</button><button class="btn" id="noReset">Annuler</button></div>
+  </div>
+  <p class="toast" id="toast" hidden></p>
+  <section class="hist">
+    <h3>Séances terminées</h3>
+    <div id="hist"></div>
+  </section>
+</div>
+
+<script>
+const DAYS=[
+ {id:"push",tab:"Lun",name:"Push",ex:[["Développé couché haltères",4,"6-8"],["Développé incliné à la Smith",3,"8-10"],["Développé militaire haltères",3,"8-10"],["Élévations latérales",4,"12-15"],["Dips ou extension triceps poulie",3,"8-12"],["Extension triceps au-dessus de la tête",2,"12-15"],["Marche inclinée 25-30 min",1,"pente 10-12 %"]]},
+ {id:"pull",tab:"Mar",name:"Pull",ex:[["Tractions",4,"6-8"],["Rowing barre ou haltère",3,"8-10"],["Tirage vertical prise serrée",3,"10-12"],["Face pull",3,"15"],["Curl incliné haltères",3,"10-12"],["Curl marteau",2,"12"],["Marche inclinée 25-30 min",1,"pente 10-12 %"]]},
+ {id:"jambes",tab:"Mer",name:"Jambes",ex:[["Squat ou hack squat",4,"6-8"],["Soulevé de terre jambes tendues",3,"8-10"],["Presse à cuisses",3,"10-12"],["Leg curl allongé",3,"12"],["Mollets debout",4,"12-15"],["Relevés de jambes suspendu",3,"12-15"],["Marche inclinée 25-30 min",1,"pente 10-12 %"]]},
+ {id:"haut",tab:"Ven",name:"Haut du corps",ex:[["Développé incliné haltères",3,"8-10"],["Rowing poitrine appuyée",3,"8-10"],["Développé épaules machine",3,"10"],["Tirage vertical prise large",3,"10"],["Élévations latérales",3,"15"],["Superset curl + extension triceps",3,"12"],["Marche inclinée 25-30 min",1,"pente 10-12 %"]]},
+ {id:"bas",tab:"Sam",name:"Bas du corps",ex:[["Fentes bulgares",3,"8-10 / jambe"],["Hip thrust",3,"10"],["Leg extension",3,"12-15"],["Leg curl assis",3,"12"],["Mollets assis",3,"15"],["Crunch à la poulie",3,"12"],["Marche inclinée 25-30 min",1,"pente 10-12 %"]]},
+ {id:"jardin",tab:"Dim",name:"Circuit jardin",note:"40 s d'effort, 20 s de récup. Un tour = burpees, pompes, squats sautés, mountain climbers, corde. Coche chaque tour terminé.",ex:[["Tours du circuit",6,"6 tours"]]}
+];
+const KEY="carnet-seance-v1";
+let state={checks:{},history:[]};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.checks)state=s;}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+const byDow={1:"push",2:"pull",3:"jambes",5:"haut",6:"bas",0:"jardin"};
+let current=byDow[new Date().getDay()]||"push";
+let animateCards=true, lastTap=null, justCompleted=null;
+const $=id=>document.getElementById(id);
+const C=2*Math.PI*42;$("prog").style.strokeDasharray=C;
+
+function weekStart(d){const x=new Date(d);const k=(x.getDay()+6)%7;x.setHours(0,0,0,0);x.setDate(x.getDate()-k);return x;}
+function doneThisWeek(id){const ws=weekStart(new Date()).getTime();return state.history.some(h=>h.id===id&&h.t>=ws);}
+
+function renderTabs(){
+  $("tabs").innerHTML="";
+  DAYS.forEach(d=>{
+    const b=document.createElement("button");b.className="tab";b.id="tab-"+d.id;b.setAttribute("role","tab");
+    b.setAttribute("aria-selected",d.id===current);
+    b.innerHTML=(doneThisWeek(d.id)?'<span class="dot" aria-label="faite cette semaine"></span>':"")+d.name+" <small>"+d.tab+"</small>";
+    b.onclick=()=>{if(current===d.id)return;current=d.id;animateCards=true;hideExtras();render();b.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});};
+    $("tabs").appendChild(b);
+  });
+  const n=DAYS.filter(d=>doneThisWeek(d.id)).length;
+  $("weekLabel").textContent=n+" / 6 séances cette semaine";
+}
+function render(){
+  renderTabs();
+  const d=DAYS.find(x=>x.id===current);
+  const c=state.checks[d.id]||(state.checks[d.id]={});
+  $("dayTitle").textContent=d.name;
+  let total=0,done=0;
+  $("list").innerHTML="";
+  d.ex.forEach(([name,sets,reps],i)=>{
+    const arr=c[i]||(c[i]=Array(sets).fill(false));
+    total+=sets;done+=arr.filter(Boolean).length;
+    const full=arr.every(Boolean);
+    const card=document.createElement("div");card.className="ex"+(full?" complete":"")+(justCompleted===i?" justdone":"");
+    if(animateCards)card.style.animationDelay=(i*40)+"ms";else card.style.animation=justCompleted===i?"":"none";
+    card.innerHTML='<div class="exhead"><span class="exname"></span><span class="target"></span></div><div class="sets"></div>';
+    card.querySelector(".exname").textContent=name;
+    card.querySelector(".target").textContent=(sets>1?sets+" × ":"")+reps;
+    const box=card.querySelector(".sets");
+    arr.forEach((v,j)=>{
+      const s=document.createElement("button");s.className="set";s.id=`s-${d.id}-${i}-${j}`;
+      if(lastTap===s.id)s.classList.add("pop");
+      s.setAttribute("aria-pressed",v);s.textContent=v?"✓":(j+1);
+      s.setAttribute("aria-label",`${name}, série ${j+1}`);
+      s.onclick=(e)=>{
+        const was=arr.every(Boolean);arr[j]=!arr[j];save();
+        lastTap=s.id;justCompleted=(!was&&arr.every(Boolean))?i:null;animateCards=false;
+        const r=s.getBoundingClientRect();
+        if(arr[j])burst(r.left+r.width/2,r.top+r.height/2,justCompleted===i?26:10);
+        render();
+      };
+      box.appendChild(s);
+    });
+    $("list").appendChild(card);
+  });
+  const p=total?done/total:0;
+  $("prog").style.strokeDashoffset=C*(1-p);
+  $("pct").textContent=Math.round(p*100)+"%";
+  $("ring").classList.toggle("full",p===1);
+  $("count").textContent=done+" / "+total+" séries";
+  $("dayNote").textContent=d.note||"Semaine 1 : garde 2-3 reps en réserve. Ensuite, dernière série à 0-1 rep de l'échec.";
+  $("finish").disabled=done===0;
+  $("finish").classList.toggle("ready",p===1);
+  renderHist();
+  lastTap=null;justCompleted=null;animateCards=false;
+}
+function renderHist(){
+  const h=$("hist");h.innerHTML="";
+  if(!state.history.length){h.innerHTML='<div class="hrow"><span>Aucune séance terminée pour l\'instant.</span><span></span></div>';return;}
+  state.history.slice(0,10).forEach(x=>{
+    const r=document.createElement("div");r.className="hrow";
+    r.innerHTML="<span></span><span></span>";
+    r.children[0].textContent=x.name+" · "+x.done+"/"+x.total+" séries";
+    r.children[1].textContent=new Date(x.t).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"});
+    h.appendChild(r);
+  });
+}
+function hideExtras(){$("confirmBox").hidden=true;$("toast").hidden=true;}
+
+/* particules */
+const fx=$("fx"),ctx=fx.getContext("2d");let parts=[],raf=null;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function size(){const dpr=devicePixelRatio||1;fx.width=innerWidth*dpr;fx.height=innerHeight*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+size();addEventListener("resize",size);
+function burst(x,y,n){
+  if(reduce)return;
+  const cs=getComputedStyle(document.documentElement);
+  const cols=[cs.getPropertyValue("--done").trim(),cs.getPropertyValue("--accent").trim()];
+  for(let k=0;k<n;k++){const a=Math.random()*Math.PI*2,v=2+Math.random()*(n>15?6:3.5);
+    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-1.5,life:1,r:2+Math.random()*2.5,c:cols[k%2]});}
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.18;p.vx*=.98;p.life-=.025;
+    ctx.globalAlpha=Math.max(p.life,0);ctx.fillStyle=p.c;ctx.shadowColor=p.c;ctx.shadowBlur=8;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();});
+  ctx.globalAlpha=1;
+  raf=parts.length?requestAnimationFrame(tick):null;
+}
+
+$("finish").onclick=()=>{
+  const d=DAYS.find(x=>x.id===current);const c=state.checks[d.id];
+  let total=0,done=0;Object.values(c).forEach(a=>{total+=a.length;done+=a.filter(Boolean).length;});
+  state.history.unshift({id:d.id,name:d.name,done,total,t:Date.now()});
+  state.checks[d.id]={};save();
+  const r=$("ring").getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,60);
+  animateCards=true;render();
+  $("toast").textContent=(done===total?"Séance complète. ":"Séance enregistrée. ")+d.name+", "+done+"/"+total+" séries.";$("toast").hidden=false;
+};
+$("resetBtn").onclick=()=>{$("confirmBox").hidden=false;$("toast").hidden=true;};
+$("noReset").onclick=()=>{$("confirmBox").hidden=true;};
+$("yesReset").onclick=()=>{state.checks[current]={};save();$("confirmBox").hidden=true;animateCards=true;render();};
+render();
+</script>
+
+</body>
+</html>
